@@ -1,0 +1,5 @@
+{
+  "name": "Task Prompter",
+  "description": "A Progressive Web App to browse and copy specialized SEO prompts for Gemini, featuring a liquid glass UI.",
+  "requestFramePermissions": []
+}
