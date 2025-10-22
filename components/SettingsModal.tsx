@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSettings } from '../contexts/SettingsContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ const GLOBAL_KEYS = ['brand', 'domain', 'city', 'address', 'phone', 'primary_cat
 const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const { settings, setSettings } = useSettings();
   const [localSettings, setLocalSettings] = useState(settings);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (isOpen) {
@@ -40,8 +42,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         className="relative w-full max-w-md bg-white/[.15] backdrop-blur-2xl border border-white/[.20] rounded-2xl p-6 shadow-2xl"
         onClick={e => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-bold mb-4">Globálne premenné</h2>
-        <p className="text-sm text-white/80 mb-6">Tieto hodnoty sa automaticky vyplnia do všetkých relevantných promptov.</p>
+        <h2 className="text-2xl font-bold mb-4">{t('settingsModal.title')}</h2>
+        <p className="text-sm text-white/80 mb-6">{t('settingsModal.description')}</p>
         
         <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
           {GLOBAL_KEYS.map(key => (
@@ -54,7 +56,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
                 type="text"
                 value={localSettings[key] || ''}
                 onChange={e => handleChange(key, e.target.value)}
-                placeholder={`Zadajte ${key.replace(/_/g, ' ')}...`}
+                placeholder={t('promptCard.variableInputPlaceholder', { placeholder: key.replace(/_/g, ' ') })}
                 className="w-full bg-black/20 border border-white/20 rounded-md px-3 py-1.5 text-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
@@ -66,13 +68,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
             onClick={onClose}
             className="px-4 py-2 rounded-md bg-white/10 hover:bg-white/20 border border-white/20 text-sm font-semibold transition-colors"
           >
-            Zrušiť
+            {t('settingsModal.cancelButton')}
           </button>
           <button
             onClick={handleSave}
             className="px-4 py-2 rounded-md bg-blue-500/80 hover:bg-blue-500 border border-blue-400/50 text-sm font-semibold transition-colors"
           >
-            Uložiť
+            {t('settingsModal.saveButton')}
           </button>
         </div>
       </div>
